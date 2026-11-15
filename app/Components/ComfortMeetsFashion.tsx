@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ComfortMeetsFashion() {
   return (
-    <section className="w-full bg-[#e6e2dd] py-16  ">
+    <section className="w-full bg-[#e6e2dd] py-6 md:py-16  ">
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 w-full grid grid-cols-1 md:grid-cols-2 items-center gap-8 bg-neutral-200/50 rounded-2xl overflow-hidden ">
         
         {/* Left Side: Product / Model Image Box */}

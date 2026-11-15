@@ -285,7 +285,7 @@ export default function SneakersSection() {
   );
 
   return (
-    <section className="w-full py-6 px-4 md:px-6 bg-white text-black">
+    <section className="w-full py-6  bg-white text-black">
       {/* Section Header & Tabs */}
       <div className="text-center max-w-2xl mx-auto mb-10">
         <p className="text-xs uppercase tracking-[0.2em] text-amber-500 mb-2 font-semibold">

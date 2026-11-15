@@ -36,15 +36,15 @@ export default function FashionSneakersGrid() {
   ];
 
   return (
-    <section className="w-full py-14 md:py-20 px-3 sm:px-4 md:px-12 bg-neutral-950 text-white overflow-hidden">
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6 xl:px-8">
+    <section className="w-full py-14 md:py-20  bg-neutral-50 text-white overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-amber-500 uppercase block mb-2">
             FASHION SNEAKERS
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-black uppercase">
             Timeless styles for everyday wear
           </h2>
           <p className="text-[11px] sm:text-sm text-neutral-400 mt-2 sm:mt-3">
@@ -67,10 +67,10 @@ export default function FashionSneakersGrid() {
                   <img 
                     src={item.image} 
                     alt={item.title} 
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 brightness-90"
+                    className="w-full h-full  group-hover:scale-105 transition-transform duration-700 brightness-90"
                   />
                   {/* Dark gradient overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/30 via-neutral-950/20 to-transparent" />
                 </div>
 
                 {/* Content Overlay */}
@@ -105,10 +105,10 @@ export default function FashionSneakersGrid() {
                   <img 
                     src={item.image} 
                     alt={item.title} 
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 brightness-90"
+                    className="w-full h-full  group-hover:scale-105 transition-transform duration-700 brightness-90"
                   />
                   {/* Dark gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/50 via-neutral-950/40 to-transparent" />
                 </div>
 
                 {/* Content Overlay */}

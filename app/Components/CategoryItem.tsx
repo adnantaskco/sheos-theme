@@ -43,7 +43,7 @@ const PremiumCategories: React.FC = () => {
   ];
 
   return (
-    <section className="w-full bg-white py-16 md:py-20 overflow-hidden">
+    <section className="w-full bg-white py-6 md:py-20 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

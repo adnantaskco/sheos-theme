@@ -10,7 +10,7 @@ import { GiFootTrip } from 'react-icons/gi';
 
 export default function NewsletterFooter() {
   return ( 
-    <footer className="w-full  text-neutral-800 pt-16 pb-8 px-4 md:px-12">
+    <footer className="w-full  text-neutral-800 pt-4 pb-8 ">
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         
         {/* 1. Subscribe Banner Box */}
