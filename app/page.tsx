@@ -10,6 +10,10 @@ import BootsSection from "./Components/BootsSection";
 import RecentPosts from "./Components/RecentPosts";
 import NewsletterFooter from "./Components/NewsletterFooter";
 import FashionSneakersGrid from "./Components/FashionSneakersGrid";
+import ExpandableShoeHero from "./Components/herosection2";
+import BubbleCategories from "./Components/BubbleCategories";
+import LadiesCatalogPage from "./Components/ladiesshoesection";
+
 
 
 export default function Home() {
@@ -17,11 +21,15 @@ export default function Home() {
 <>
 <Navbar/>
 {/* <Navbar2/> */}
-<HeroSection/>
-<PremiumCategories/>
+<ExpandableShoeHero/>
+<BubbleCategories/>
+
+{/* <HeroSection/> */}
+{/* <PremiumCategories/> */}
 <CatalogPage/>
-<SneakersSection/>
+<LadiesCatalogPage/>
 <FashionSneakersGrid/>
+<SneakersSection/>
 <ComfortMeetsFashion/>
 <BootsSection/>
 <RecentPosts/>

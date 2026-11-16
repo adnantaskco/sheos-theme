@@ -1,0 +1,137 @@
+.bubble-slider {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 1.5rem 35vw;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-x;
+}
+
+@media (min-width: 768px) {
+  .bubble-slider {
+    gap: 2.5rem;
+    padding: 2rem 40vw;
+  }
+}
+
+.bubble-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.bubble-slider.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.bubble-item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-snap-align: center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Scale Hierarchy (Mobile + Desktop) */
+.bubble-active {
+  transform: scale(1.1);
+  opacity: 1;
+  z-index: 10;
+}
+
+.bubble-distance-1 {
+  transform: scale(0.8);
+  opacity: 0.78;
+  z-index: 5;
+}
+
+.bubble-distance-2 {
+  transform: scale(0.62);
+  opacity: 0.42;
+  z-index: 2;
+}
+
+.bubble-distance-3 {
+  transform: scale(0.5);
+  opacity: 0.2;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .bubble-active {
+    transform: scale(1.12);
+  }
+  .bubble-distance-1 {
+    transform: scale(0.86);
+  }
+  .bubble-distance-2 {
+    transform: scale(0.68);
+  }
+  .bubble-distance-3 {
+    transform: scale(0.55);
+  }
+}
+
+/* Sphere Size: Compact on Mobile so 3-5 bubbles stay visible side-by-side */
+.bubble-sphere {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.14),
+    0 4px 10px -2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.4s ease;
+}
+
+@media (min-width: 640px) {
+  .bubble-sphere {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media (min-width: 768px) {
+  .bubble-sphere {
+    width: 230px;
+    height: 230px;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.12),
+      0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.bubble-active .bubble-sphere {
+  box-shadow: 0 22px 45px -12px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.bubble-sphere img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bubble-active:hover .bubble-sphere img {
+  transform: scale(1.06);
+}
+
+/* Subtle Inner Glass Ring */
+.bubble-glass-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.7),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}

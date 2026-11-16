@@ -157,7 +157,7 @@ const Navbar: React.FC = () => {
 
               {/* Brand Logo */}
               <div className="flex items-center">
-                        <a href="https://qx-shooz.myshopify.com/" className="text-4xl font-black tracking-wider flex items-center text-black">
+                        <a href="/" className="text-4xl font-black tracking-wider flex items-center text-black">
                           SH
                           <span className="inline-flex items-center justify-center mx-0.5 text-black">
                             <GiFootTrip />

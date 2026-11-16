@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from 'react';
-import { ShoeProduct } from '@/app/Components/productcard';
-import TabShoeCard from './TabProductcard';
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import TabShoeCard from "@/app/Components/TabProductcard";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface Colorway {
   id: string;
@@ -277,66 +279,260 @@ export const productsData: ShoeProduct[] = [
   }
 ];
 
+type TabCategory = "featured" | "new" | "best";
+
 export default function SneakersSection() {
-  const [activeTab, setActiveTab] = useState<'featured' | 'new' | 'best'>('featured');
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const startScrollLeft = useRef(0);
+
+  const [activeTab, setActiveTab] = useState<TabCategory>("featured");
+  const [activeDot, setActiveDot] = useState(0);
+  const [dotCount, setDotCount] = useState(1);
 
   const filteredProducts = productsData.filter(
     (product) => product.tabCategory === activeTab
   );
 
+  // Pagination calculation
+  const updatePagination = useCallback(() => {
+    const slider = scrollRef.current;
+    if (!slider) return;
+
+    const pageWidth = slider.clientWidth || 1;
+    const maxScroll = Math.max(
+      0,
+      slider.scrollWidth - slider.clientWidth
+    );
+
+    const totalPages = Math.max(
+      1,
+      Math.ceil(maxScroll / pageWidth) + 1
+    );
+
+    const currentPage = Math.round(
+      slider.scrollLeft / pageWidth
+    );
+
+    setDotCount(totalPages);
+    setActiveDot(Math.min(currentPage, totalPages - 1));
+  }, []);
+
+  // Recalculate on resize and tab change
+  useEffect(() => {
+    const slider = scrollRef.current;
+    if (!slider) return;
+
+    slider.scrollTo({ left: 0, behavior: "instant" });
+
+    updatePagination();
+
+    const observer = new ResizeObserver(updatePagination);
+    observer.observe(slider);
+
+    return () => observer.disconnect();
+  }, [activeTab, filteredProducts.length, updatePagination]);
+
+  // Arrow navigation
+  const scrollCarousel = (direction: number) => {
+    const slider = scrollRef.current;
+    if (!slider) return;
+
+    slider.scrollBy({
+      left: direction * slider.clientWidth,
+      behavior: "smooth",
+    });
+  };
+
+  // Dot navigation
+  const goToPage = (index: number) => {
+    const slider = scrollRef.current;
+    if (!slider) return;
+
+    slider.scrollTo({
+      left: index * slider.clientWidth,
+      behavior: "smooth",
+    });
+  };
+
+  // Mouse drag
+  const handleMouseDown = (
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (e.button !== 0) return;
+
+    const slider = scrollRef.current;
+    if (!slider) return;
+
+    isDragging.current = true;
+    startX.current = e.pageX;
+    startScrollLeft.current = slider.scrollLeft;
+  };
+
+  const handleMouseMove = (
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (!isDragging.current || !scrollRef.current) return;
+
+    e.preventDefault();
+
+    const walk = (e.pageX - startX.current) * 1.5;
+
+    scrollRef.current.scrollLeft =
+      startScrollLeft.current - walk;
+  };
+
+  const stopDragging = () => {
+    isDragging.current = false;
+  };
+
+
   return (
-    <section className="w-full py-6  bg-white text-black">
-      {/* Section Header & Tabs */}
-      <div className="text-center max-w-2xl mx-auto mb-10">
-        <p className="text-xs uppercase tracking-[0.2em] text-amber-500 mb-2 font-semibold">
-          The Latest Trends In Athletic Footwear
-        </p>
-        <h2 className="text-3xl md:text-4xl font-black tracking-tight text-black uppercase mb-4">
-          Sneakers & Kicks
-        </h2>
+ <section className="w-full bg-white py-8 sm:py-10 lg:py-14 text-black overflow-hidden">
+      <div className="container mx-auto px-3 sm:px-5 lg:px-8">
 
-        {/* Tab Navigation Buttons */}
-        <div className="flex justify-center items-center space-x-6 md:space-x-10 mt-6 border-b border-neutral-200 pb-2">
-          <button
-            onClick={() => setActiveTab('featured')}
-            className={`text-sm font-bold tracking-wider uppercase transition-colors relative pb-2 ${
-              activeTab === 'featured' ? 'text-black border-b-2 border-black' : 'text-neutral-400 hover:text-neutral-600'
-            }`}
-          >
-            Featured
-          </button>
-          <button
-            onClick={() => setActiveTab('new')}
-            className={`text-sm font-bold tracking-wider uppercase transition-colors relative pb-2 ${
-              activeTab === 'new' ? 'text-black border-b-2 border-black' : 'text-neutral-400 hover:text-neutral-600'
-            }`}
-          >
-            New Arrivals
-          </button>
-          <button
-            onClick={() => setActiveTab('best')}
-            className={`text-sm font-bold tracking-wider uppercase transition-colors relative pb-2 ${
-              activeTab === 'best' ? 'text-black border-b-2 border-black' : 'text-neutral-400 hover:text-neutral-600'
-            }`}
-          >
-            Best Seller
-          </button>
-        </div>
-      </div>
+        {/* Header */}
+        <div className="flex items-end justify-between gap-3 mb-6 sm:mb-8">
 
-      {/* Product Display Grid - Mobile horizontal scroll, Desktop clean grid */}
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 flex md:grid gap-4 overflow-x-auto snap-x md:overflow-visible md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 pb-4 no-scrollbar">
-        {filteredProducts.map((product) => (
-          <div 
-            key={product.id} 
-            className="shrink-0 snap-start w-[calc(50%-8px)] sm:w-[280px] md:w-auto transition-transform duration-300 hover:-translate-y-1"
-          >
-            <TabShoeCard 
-              product={product} 
-              onAddToCart={(details) => console.log('Added to cart:', details)} 
-            />
+          <div>
+            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-amber-500 mb-2">
+              The Latest Trends In Athletic Footwear
+            </p>
+
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight">
+              Sneakers & Kicks
+            </h2>
           </div>
-        ))}
+
+          {/* Desktop / Mobile Arrows */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => scrollCarousel(-1)}
+              aria-label="Previous products"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center hover:bg-amber-500 transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => scrollCarousel(1)}
+              aria-label="Next products"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center hover:bg-amber-500 transition-colors"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex items-center justify-center gap-5 sm:gap-8 mb-7 border-b border-neutral-200">
+
+          {[
+            { id: "featured", label: "Featured" },
+            { id: "new", label: "New Arrivals" },
+            { id: "best", label: "Best Seller" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() =>
+                setActiveTab(tab.id as TabCategory)
+              }
+              className={`relative pb-3 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider transition-colors ${
+                activeTab === tab.id
+                  ? "text-black"
+                  : "text-neutral-400 hover:text-black"
+              }`}
+            >
+              {tab.label}
+
+              {activeTab === tab.id && (
+                <span className="absolute bottom-0 left-0 h-[2px] w-full bg-amber-500" />
+              )}
+            </button>
+          ))}
+
+        </div>
+
+        {/* Horizontal Carousel */}
+        <div
+          ref={scrollRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={stopDragging}
+          onMouseLeave={stopDragging}
+          onScroll={updatePagination}
+          onDragStart={(e) => e.preventDefault()}
+          className="
+            flex items-stretch
+            gap-3 sm:gap-4 lg:gap-5
+            overflow-x-auto overflow-y-hidden
+            pb-5 pt-2
+            snap-x snap-mandatory
+            no-scrollbar
+            cursor-grab active:cursor-grabbing
+            select-none
+            touch-pan-x
+          "
+          style={{
+            scrollbarWidth: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="
+                shrink-0 snap-start min-w-0
+                basis-[calc((100%-12px)/2)]
+                sm:basis-[calc((100%-16px)/2)]
+                md:basis-[calc((100%-32px)/3)]
+                lg:basis-[calc((100%-60px)/4)]
+                xl:basis-[calc((100%-80px)/5)]
+                transition-transform duration-300
+                hover:-translate-y-1
+              "
+            >
+              <TabShoeCard
+                product={product}
+                onAddToCart={(details) =>
+                  console.log("Added to cart:", details)
+                }
+              />
+            </div>
+          ))}
+
+          {filteredProducts.length === 0 && (
+            <div className="w-full py-12 text-center text-sm text-neutral-500">
+              No products available.
+            </div>
+          )}
+
+        </div>
+
+        {/* Bottom Pagination Dots */}
+        <div className="flex justify-center items-center gap-2 mt-3">
+          {Array.from({ length: dotCount }).map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => goToPage(index)}
+              aria-label={`Go to page ${index + 1}`}
+              aria-current={activeDot === index ? "true" : undefined}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                activeDot === index
+                  ? "w-8 bg-amber-500"
+                  : "w-2 bg-neutral-300 hover:bg-neutral-500"
+              }`}
+            />
+          ))}
+        </div>
+
       </div>
     </section>
   );
