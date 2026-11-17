@@ -38,7 +38,17 @@ const Navbar: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [cartCount] = useState<number>(0);
+  const [cartCount, setCartCount] = useState<number>(0);
+
+  // কার্ট আপডেট লিসেনার (যখনই প্রোডাক্ট উড়ে এসে কার্টে ঢুকবে, কাউন্ট বাড়বে)
+  useEffect(() => {
+    const handleCartUpdate = () => {
+      setCartCount((prev) => prev + 1);
+    };
+
+    window.addEventListener('cart-item-added', handleCartUpdate);
+    return () => window.removeEventListener('cart-item-added', handleCartUpdate);
+  }, []);
 
   // Handle scroll effect for glassmorphism navbar
   useEffect(() => {
@@ -157,14 +167,14 @@ const Navbar: React.FC = () => {
 
               {/* Brand Logo */}
               <div className="flex items-center">
-                        <a href="/" className="text-4xl font-black tracking-wider flex items-center text-black">
-                          SH
-                          <span className="inline-flex items-center justify-center mx-0.5 text-black">
-                            <GiFootTrip />
-                          </span>
-                          Z
-                        </a>
-                      </div>
+                <a href="/" className="text-4xl font-black tracking-wider flex items-center text-black">
+                  SH
+                  <span className="inline-flex items-center justify-center mx-0.5 text-black">
+                    <GiFootTrip />
+                  </span>
+                  Z
+                </a>
+              </div>
             </div>
 
             {/* Center: Desktop Navigation Links */}
@@ -254,14 +264,15 @@ const Navbar: React.FC = () => {
                 <User className="w-5 h-5" />
               </button>
 
-              {/* Shopping Bag */}
+              {/* Shopping Bag (Target for Fly-to-Cart Animation) */}
               <button
+                id="header-cart-icon"
                 aria-label="Shopping bag"
                 className="p-2 text-neutral-800 hover:bg-neutral-100 rounded-full transition-colors relative"
               >
                 <ShoppingBag className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-neutral-950 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute top-1 right-1 w-4 h-4 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-xs">
                     {cartCount}
                   </span>
                 )}

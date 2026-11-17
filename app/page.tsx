@@ -13,6 +13,7 @@ import FashionSneakersGrid from "./Components/FashionSneakersGrid";
 import ExpandableShoeHero from "./Components/herosection2";
 import BubbleCategories from "./Components/BubbleCategories";
 import LadiesCatalogPage from "./Components/ladiesshoesection";
+import NikeBrandProduct from "./Components/Nikecollection";
 
 
 
@@ -31,7 +32,9 @@ export default function Home() {
 <FashionSneakersGrid/>
 <SneakersSection/>
 <ComfortMeetsFashion/>
+<NikeBrandProduct/>
 <BootsSection/>
+
 <RecentPosts/>
 <NewsletterFooter/>
 
