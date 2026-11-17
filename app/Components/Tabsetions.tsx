@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import TabShoeCard from "@/app/Components/TabProductcard";
-
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+export type TabCategory = "featured" | "new" | "best";
 
 export interface Colorway {
   id: string;
@@ -27,7 +28,7 @@ export interface ShoeProduct {
   defaultSize: string;
   sizes: string[];
   colorways: Colorway[];
-  tabCategory: string;
+  tabCategory: TabCategory;
 }
 
 export const productsData: ShoeProduct[] = [
@@ -279,8 +280,6 @@ export const productsData: ShoeProduct[] = [
   }
 ];
 
-type TabCategory = "featured" | "new" | "best";
-
 export default function SneakersSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -388,14 +387,12 @@ export default function SneakersSection() {
     isDragging.current = false;
   };
 
-
   return (
- <section className="w-full bg-white py-8 sm:py-10 lg:py-14 text-black overflow-hidden">
+    <section className="w-full bg-white py-8 sm:py-10 lg:py-14 text-black overflow-hidden">
       <div className="container mx-auto px-3 sm:px-5 lg:px-8">
 
         {/* Header */}
         <div className="flex items-end justify-between gap-3 mb-6 sm:mb-8">
-
           <div>
             <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-amber-500 mb-2">
               The Latest Trends In Athletic Footwear
@@ -430,7 +427,6 @@ export default function SneakersSection() {
 
         {/* Tabs */}
         <div className="flex items-center justify-center gap-5 sm:gap-8 mb-7 border-b border-neutral-200">
-
           {[
             { id: "featured", label: "Featured" },
             { id: "new", label: "New Arrivals" },
@@ -455,7 +451,6 @@ export default function SneakersSection() {
               )}
             </button>
           ))}
-
         </div>
 
         {/* Horizontal Carousel */}
@@ -483,7 +478,6 @@ export default function SneakersSection() {
             WebkitOverflowScrolling: "touch",
           }}
         >
-
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -512,7 +506,6 @@ export default function SneakersSection() {
               No products available.
             </div>
           )}
-
         </div>
 
         {/* Bottom Pagination Dots */}
