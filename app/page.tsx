@@ -20,7 +20,7 @@ import NikeBrandProduct from "./Components/Nikecollection";
 export default function Home() {
   return (
 <>
-<Navbar/>
+
 {/* <Navbar2/> */}
 <ExpandableShoeHero/>
 <BubbleCategories/>
@@ -36,7 +36,7 @@ export default function Home() {
 <BootsSection/>
 
 <RecentPosts/>
-<NewsletterFooter/>
+
 
 </>
   );

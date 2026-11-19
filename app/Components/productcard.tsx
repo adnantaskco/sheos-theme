@@ -1,5 +1,6 @@
 "use client"
 import React, { useRef, useState } from 'react';
+import Link from 'next/link';
 import { ShoppingBag, Check, Star } from 'lucide-react';
 
 export type TabCategory = "featured" | "new" | "best";
@@ -51,7 +52,7 @@ const packAndFlyToCart = (
   const cardRect = cardElement.getBoundingClientRect();
   const cartRect = cartIcon.getBoundingClientRect();
 
-  // মিডিয়াম সাইজ বক্স (86px x 86px) কার্ডের মাঝখান থেকে শুরু হবে
+  // মিডিয়াম সাইজ বক্স (86px x 86px) কার্ডের মাঝখান থেকে শুরু হবে
   const boxSize = 86;
   const startX = cardRect.left + cardRect.width / 2 - boxSize / 2;
   const startY = cardRect.top + cardRect.height / 2 - boxSize / 2;
@@ -174,7 +175,7 @@ const packAndFlyToCart = (
   const tapeEl = boxContainer.querySelector(".box-tape") as HTMLElement;
   const labelEl = boxContainer.querySelector(".box-label") as HTMLElement;
 
-  // ধাপ ১: বক্সটি পপ-আপ হয়ে আসবে ও জুতা ভেতরে বসবে (0ms - 350ms)
+  // ধাপ ১: বক্সটি পপ-আপ হয়ে আসবে ও জুতা ভেতরে বসবে (0ms - 350ms)
   boxContainer.animate(
     [
       { transform: "scale(0.3)", opacity: 0 },
@@ -203,7 +204,7 @@ const packAndFlyToCart = (
       { duration: 280, easing: "ease-in-out", fill: "forwards" }
     );
 
-    // ঢাকনা বন্ধ হওয়ার পর সিলিং টেপ ও লেবেল বসবে
+    // ঢাকনা বন্ধ হওয়ার পর সিলিং টেপ ও লেবেল বসবে
     setTimeout(() => {
       tapeEl?.animate(
         [
@@ -219,7 +220,7 @@ const packAndFlyToCart = (
     }, 240);
   }, 350);
 
-  // ধাপ ৩: ৮৫০ms পর প্যাক করা বক্সটি ধীরে ধীরে উড়ে কার্ট আইকনে যাবে
+  // ধাপ ৩: ৮৫০ms পর প্যাক করা বক্সটি ধীরে ধীরে উড়ে কার্ট আইকনে যাবে
   setTimeout(() => {
     const deltaX = endX - startX;
     const deltaY = endY - startY;
@@ -273,6 +274,8 @@ export default function ShoeCard({ product, onAddToCart, className = '' }: ShoeC
   const cardRef = useRef<HTMLElement>(null);
 
   const {
+    id,
+    slug,
     brand,
     badge,
     title,
@@ -296,10 +299,13 @@ export default function ShoeCard({ product, onAddToCart, className = '' }: ShoeC
   const activeColorway =
     colorways.find((c) => c.id === selectedColorId) || colorways[0];
 
+  // Product Details Page-এর URL (slug না থাকলে fallback হিসেবে id ব্যবহার করবে)
+  const productDetailsHref = `/product/${slug || id}`;
+
   const handleAddToCart = () => {
     setIsAdded(true);
 
-    // বক্সে প্যাকিং হয়ে উড়ে কার্টে যাওয়ার অ্যানিমেশন
+    // বক্সে প্যাকিং হয়ে উড়ে কার্টে যাওয়ার অ্যানিমেশন
     packAndFlyToCart(cardRef.current, activeColorway?.image, () => {
       if (typeof onAddToCart === 'function') {
         onAddToCart({
@@ -365,8 +371,11 @@ export default function ShoeCard({ product, onAddToCart, className = '' }: ShoeC
             )}
           </div>
 
-          {/* Shoe Image Box */}
-          <div className="relative w-full aspect-[16/10] flex items-center justify-center overflow-hidden rounded-lg bg-neutral-50 my-1 border border-neutral-100">
+          {/* Shoe Image Box (Clickable Link to Product Details) */}
+          <Link
+            href={productDetailsHref}
+            className="relative w-full aspect-[16/10] flex items-center justify-center overflow-hidden rounded-lg bg-neutral-50 my-1 border border-neutral-100 cursor-pointer"
+          >
             {activeColorway?.image ? (
               <img
                 src={activeColorway.image}
@@ -376,13 +385,18 @@ export default function ShoeCard({ product, onAddToCart, className = '' }: ShoeC
             ) : (
               <div className="text-xs text-neutral-400">No Image</div>
             )}
-          </div>
+          </Link>
 
           {/* Title, Subtitle & Rating */}
           <div className="mt-0.5 text-left">
-            <h3 className="text-xs sm:text-sm font-extrabold tracking-tight text-neutral-900 uppercase leading-tight line-clamp-1">
-              {title}
-            </h3>
+            <Link
+              href={productDetailsHref}
+              className="block hover:text-amber-500 transition-colors"
+            >
+              <h3 className="text-xs sm:text-sm font-extrabold tracking-tight text-neutral-900 group-hover:text-amber-600 transition-colors uppercase leading-tight line-clamp-1">
+                {title}
+              </h3>
+            </Link>
             <p className="text-[10px] text-neutral-500 tracking-wide line-clamp-1 mt-0.5">
               {subtitle}
             </p>

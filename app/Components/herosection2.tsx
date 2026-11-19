@@ -44,7 +44,7 @@ export default function ExpandableShoeHero() {
   const [active, setActive] = useState(2);
 
   return (
-    <section className="w-full bg-[#f5f4f0] px-3 pt-24 pb-8 sm:px-6 sm:pt-32 md:pt-28 lg:px-8">
+    <section className="w-full bg-[#f5f4f0] px-3 pt-36 pb-8 sm:px-6 sm:pt-36 md:pt-28 lg:px-8">
       <div className="">
         {/* Mobile: Vertical Accordion | Desktop: Horizontal Accordion */}
         <div className="flex h-[calc(100svh-7.5rem)] min-h-[500px] max-h-[740px] w-full flex-col gap-2 overflow-hidden rounded-2xl md:h-[560px] md:flex-row md:gap-3">
