@@ -1,5 +1,7 @@
 
-export const NikeProductData = [
+import type { ShoeProduct } from "@/app/Components/productcard";
+
+export const NikeProductData: ShoeProduct[] = [
   {
     id: "f1",
     slug: "nike-air-max-scenic-womens-sneakers",

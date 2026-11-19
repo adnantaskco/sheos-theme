@@ -1,8 +1,7 @@
-
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import ShoeCard from "@/app/Components/productcard";
+import ShoeCard, { type ShoeProduct } from "@/app/Components/productcard";
 import { FemaleProductData } from "@/lib/ladiesdata";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -173,7 +172,7 @@ export default function LadiesCatalogPage() {
               "
             >
               <ShoeCard
-                product={product}
+                product={product as ShoeProduct}
                 onAddToCart={(item) =>
                   console.log("Added to cart:", item)
                 }

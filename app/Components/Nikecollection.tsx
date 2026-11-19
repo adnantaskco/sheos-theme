@@ -1,9 +1,8 @@
-
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import ShoeCard from "@/app/Components/productcard";
-import { NikeProductData} from "@/lib/DataNikeBrand";
+import ShoeCard, { type ShoeProduct } from "@/app/Components/productcard";
+import { NikeProductData } from "@/lib/DataNikeBrand";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function NikeBrandProduct() {
@@ -108,7 +107,7 @@ export default function NikeBrandProduct() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <span className="text-xs font-bold uppercase tracking-widest text-amber-500">
-               Nike Brands
+              Nike Brands
             </span>
 
             <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mt-1">
@@ -173,7 +172,7 @@ export default function NikeBrandProduct() {
               "
             >
               <ShoeCard
-                product={product}
+                product={product as ShoeProduct}
                 onAddToCart={(item) =>
                   console.log("Added to cart:", item)
                 }
