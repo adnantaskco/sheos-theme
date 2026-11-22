@@ -14,6 +14,8 @@ import ExpandableShoeHero from "./Components/herosection2";
 import BubbleCategories from "./Components/BubbleCategories";
 import LadiesCatalogPage from "./Components/ladiesshoesection";
 import NikeBrandProduct from "./Components/Nikecollection";
+import XRayRevealHero from "./Components/x-rayherosection";
+import LuxuryFashionSections from "./Components/LuxuryFashionSections";
 
 
 
@@ -22,6 +24,7 @@ export default function Home() {
 <>
 
 {/* <Navbar2/> */}
+{/* <XRayRevealHero/> */}
 <ExpandableShoeHero/>
 <BubbleCategories/>
 
@@ -34,7 +37,7 @@ export default function Home() {
 <ComfortMeetsFashion/>
 <NikeBrandProduct/>
 <BootsSection/>
-
+<LuxuryFashionSections/>
 <RecentPosts/>
 
 
